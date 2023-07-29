@@ -37,12 +37,20 @@ def update_data():
 def update():
     data = request.get_json()
     category_id_list = Category.query.filter(Category.user_id==current_user.id,Category.budget_type==data['budget_type'],Category.category_type==data['category_type']).all()
-    budget_element_list = Budget.query.filter(Budget.user_id==current_user.id,Budget.category_id==category_id_list[0].id,Budget.year==int(data['year']), Budget.month==int(data['month'])).all()
-    if budget_element_list==[]:
-        budget = Budget(user_id=current_user.id,category_id=category_id_list[0].id,year=int(data['year']),month=int(data['month']),amount=int(data['amount']))
-        db.session.add(budget)
+    if data['column']=='id':
+        if category_id_list==[]:
+            category = Category(user_id=current_user.id,budget_type=data['budget_type'],category_type=data['input'])
+            db.session.add(category)
+        else:
+            Category_selected = category_id_list[0]
+            setattr(Category_selected, 'category_type', data['input'])
     else:
-        user = budget_element_list[0]
-        setattr(user, 'amount', int(data['amount']))
+        budget_element_list = Budget.query.filter(Budget.user_id==current_user.id,Budget.category_id==category_id_list[0].id,Budget.year==int(data['year']), Budget.month==int(data['column'])).all()
+        if budget_element_list==[]:
+            budget = Budget(user_id=current_user.id,category_id=category_id_list[0].id,year=int(data['year']),month=int(data['column']),amount=int(data['input']))
+            db.session.add(budget)
+        else:
+            user = budget_element_list[0]
+            setattr(user, 'amount', int(data['input']))
     db.session.commit()
     return '', 204

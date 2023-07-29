@@ -48,8 +48,8 @@ var grid_income = new gridjs.Grid({
                 body: JSON.stringify({'budget_type':'Income',
                         'category_type':ev.target.dataset.elementId,
                         'year':document.getElementById("year_selected").value,
-                        'month':ev.target.dataset.columnId,
-                        'amount':ev.target.textContent
+                        'column':ev.target.dataset.columnId,
+                        'input':ev.target.textContent
                     }),
                     });
                 }
@@ -110,8 +110,8 @@ var grid_expense = new gridjs.Grid({
                 body: JSON.stringify({'budget_type':'Expense',
                         'category_type':ev.target.dataset.elementId,
                         'year':document.getElementById("year_selected").value,
-                        'month':ev.target.dataset.columnId,
-                        'amount':ev.target.textContent
+                        'column':ev.target.dataset.columnId,
+                        'input':ev.target.textContent
                     }),
                     });
                 }
@@ -172,8 +172,8 @@ var grid_savings = new gridjs.Grid({
                 body: JSON.stringify({'budget_type':'Savings',
                         'category_type':ev.target.dataset.elementId,
                         'year':document.getElementById("year_selected").value,
-                        'month':ev.target.dataset.columnId,
-                        'amount':ev.target.textContent
+                        'column':ev.target.dataset.columnId,
+                        'input':ev.target.textContent
                     }),
                     });
                 }
