@@ -1,0 +1,45 @@
+<!-- templates/profile.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<html>
+  <head>
+    <title>Editable Table</title>
+    <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+    <style>
+      body {
+        font-family: Sans-Serif;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+    <div>
+      <label for="year_selected">Year:</label> 
+      <select name="year_selected" id="year_selected" onchange="update_tables()"> 
+          <option value="2022">2022</option> 
+          <option value="2023">2023</option> 
+          <option value="2024">2024</option> 
+          <option value="2025">2025</option> 
+      </select>
+      <script src="{{url_for('static', filename='budget_grid.js')}}" defer></script>
+    </div>
+    <div>
+      <h1>Income Table</h1>
+      <hr>
+      <div id="Income"></div>
+    </div>
+    <div>
+      <h1>Expense Table</h1>
+      <hr>
+      <div id="Expense"></div>
+    </div>
+    <div>
+      <h1>Savings Table</h1>
+      <hr>
+      <div id="Savings"></div>
+    </div>
+  </body>
+</html>
+{% endblock %}
