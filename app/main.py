@@ -36,12 +36,13 @@ def update_data():
 @login_required
 def update():
     data = request.get_json()
-    print(data)
-    if 'id' not in data:
-        abort(400)
-    user = User.query.get(data['id'])
-    for field in ['name', 'age', 'address', 'phone', 'email']:
-        if field in data:
-            setattr(user, field, data[field])
+    category_id_list = Category.query.filter(Category.user_id==current_user.id,Category.budget_type==data['budget_type'],Category.category_type==data['category_type']).all()
+    budget_element_list = Budget.query.filter(Budget.user_id==current_user.id,Budget.category_id==category_id_list[0].id,Budget.year==int(data['year']), Budget.month==int(data['month'])).all()
+    if budget_element_list==[]:
+        budget = Budget(user_id=current_user.id,category_id=category_id_list[0].id,year=int(data['year']),month=int(data['month']),amount=int(data['amount']))
+        db.session.add(budget)
+    else:
+        user = budget_element_list[0]
+        setattr(user, 'amount', int(data['amount']))
     db.session.commit()
     return '', 204

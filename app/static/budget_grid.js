@@ -11,20 +11,19 @@ const editableCellAttributes = (data, row, col) => {
 const tableDiv_income = document.getElementById("Income");    
 var grid_income = new gridjs.Grid({
         columns: [
-            { id: 'ids', 'hidden': true },
-            { id: 'category_type', name: 'Category'},
-            { id: 'january', name : 'Janv','attributes': editableCellAttributes },
-            { id: 'february',name: 'Fev','attributes': editableCellAttributes },
-            { id: 'march',name: 'March','attributes': editableCellAttributes },
-            { id: 'april',name: 'April','attributes': editableCellAttributes },
-            { id: 'may',name: 'May','attributes': editableCellAttributes },
-            { id: 'june',name: 'June','attributes': editableCellAttributes },
-            { id: 'july',name: 'July','attributes': editableCellAttributes },
-            { id: 'august',name: 'Aug','attributes': editableCellAttributes },
-            { id: 'september',name: 'Sept','attributes': editableCellAttributes },
-            { id: 'october',name: 'Oct','attributes': editableCellAttributes },
-            { id: 'november',name: 'Nov','attributes': editableCellAttributes },
-            { id: 'december',name: 'Dec','attributes': editableCellAttributes },
+            { id: 'id', name: 'Category','attributes': editableCellAttributes},
+            { id: '1', name : 'Janv','attributes': editableCellAttributes },
+            { id: '2',name: 'Fev','attributes': editableCellAttributes },
+            { id: '3',name: 'March','attributes': editableCellAttributes },
+            { id: '4',name: 'April','attributes': editableCellAttributes },
+            { id: '5',name: 'May','attributes': editableCellAttributes },
+            { id: '6',name: 'June','attributes': editableCellAttributes },
+            { id: '7',name: 'July','attributes': editableCellAttributes },
+            { id: '8',name: 'Aug','attributes': editableCellAttributes },
+            { id: '9',name: 'Sept','attributes': editableCellAttributes },
+            { id: '10',name: 'Oct','attributes': editableCellAttributes },
+            { id: '11',name: 'Nov','attributes': editableCellAttributes },
+            { id: '12',name: 'Dec','attributes': editableCellAttributes },
         ],
         server: {url : '/api/data/budget',
             method:'POST',
@@ -46,10 +45,11 @@ var grid_income = new gridjs.Grid({
                 fetch('/api/data/budget_input', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
+                body: JSON.stringify({'budget_type':'Income',
+                        'category_type':ev.target.dataset.elementId,
                         'year':document.getElementById("year_selected").value,
-                        id: ev.target.dataset.elementId,
-                        [ev.target.dataset.columnId]: ev.target.textContent
+                        'month':ev.target.dataset.columnId,
+                        'amount':ev.target.textContent
                     }),
                     });
                 }
@@ -73,20 +73,19 @@ var grid_income = new gridjs.Grid({
 const tableDiv_expense = document.getElementById("Expense");    
 var grid_expense = new gridjs.Grid({
         columns: [
-            { id: 'ids', 'hidden': true },
-            { id: 'category_type', name: 'Category'},
-            { id: 'january', name : 'Janv','attributes': editableCellAttributes },
-            { id: 'february',name: 'Fev','attributes': editableCellAttributes },
-            { id: 'march',name: 'March','attributes': editableCellAttributes },
-            { id: 'april',name: 'April','attributes': editableCellAttributes },
-            { id: 'may',name: 'May','attributes': editableCellAttributes },
-            { id: 'june',name: 'June','attributes': editableCellAttributes },
-            { id: 'july',name: 'July','attributes': editableCellAttributes },
-            { id: 'august',name: 'Aug','attributes': editableCellAttributes },
-            { id: 'september',name: 'Sept','attributes': editableCellAttributes },
-            { id: 'october',name: 'Oct','attributes': editableCellAttributes },
-            { id: 'november',name: 'Nov','attributes': editableCellAttributes },
-            { id: 'december',name: 'Dec','attributes': editableCellAttributes },
+            { id: 'id', name: 'Category','attributes': editableCellAttributes},
+            { id: '1', name : 'Janv','attributes': editableCellAttributes },
+            { id: '2',name: 'Fev','attributes': editableCellAttributes },
+            { id: '3',name: 'March','attributes': editableCellAttributes },
+            { id: '4',name: 'April','attributes': editableCellAttributes },
+            { id: '5',name: 'May','attributes': editableCellAttributes },
+            { id: '6',name: 'June','attributes': editableCellAttributes },
+            { id: '7',name: 'July','attributes': editableCellAttributes },
+            { id: '8',name: 'Aug','attributes': editableCellAttributes },
+            { id: '9',name: 'Sept','attributes': editableCellAttributes },
+            { id: '10',name: 'Oct','attributes': editableCellAttributes },
+            { id: '11',name: 'Nov','attributes': editableCellAttributes },
+            { id: '12',name: 'Dec','attributes': editableCellAttributes },
         ],
         server: {url : '/api/data/budget',
             method:'POST',
@@ -108,9 +107,11 @@ var grid_expense = new gridjs.Grid({
                 fetch('/api/data/budget_input', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                        id: ev.target.dataset.elementId,
-                        [ev.target.dataset.columnId]: ev.target.textContent
+                body: JSON.stringify({'budget_type':'Expense',
+                        'category_type':ev.target.dataset.elementId,
+                        'year':document.getElementById("year_selected").value,
+                        'month':ev.target.dataset.columnId,
+                        'amount':ev.target.textContent
                     }),
                     });
                 }
@@ -134,20 +135,19 @@ var grid_expense = new gridjs.Grid({
 const tableDiv_savings = document.getElementById("Savings");    
 var grid_savings = new gridjs.Grid({
         columns: [
-            { id: 'ids', 'hidden': true },
-            { id: 'category_type', name: 'Category'},
-            { id: 'january', name : 'Janv','attributes': editableCellAttributes },
-            { id: 'february',name: 'Fev','attributes': editableCellAttributes },
-            { id: 'march',name: 'March','attributes': editableCellAttributes },
-            { id: 'april',name: 'April','attributes': editableCellAttributes },
-            { id: 'may',name: 'May','attributes': editableCellAttributes },
-            { id: 'june',name: 'June','attributes': editableCellAttributes },
-            { id: 'july',name: 'July','attributes': editableCellAttributes },
-            { id: 'august',name: 'Aug','attributes': editableCellAttributes },
-            { id: 'september',name: 'Sept','attributes': editableCellAttributes },
-            { id: 'october',name: 'Oct','attributes': editableCellAttributes },
-            { id: 'november',name: 'Nov','attributes': editableCellAttributes },
-            { id: 'december',name: 'Dec','attributes': editableCellAttributes },
+            { id: 'id', name: 'Category','attributes': editableCellAttributes},
+            { id: '1', name : 'Janv','attributes': editableCellAttributes },
+            { id: '2',name: 'Fev','attributes': editableCellAttributes },
+            { id: '3',name: 'March','attributes': editableCellAttributes },
+            { id: '4',name: 'April','attributes': editableCellAttributes },
+            { id: '5',name: 'May','attributes': editableCellAttributes },
+            { id: '6',name: 'June','attributes': editableCellAttributes },
+            { id: '7',name: 'July','attributes': editableCellAttributes },
+            { id: '8',name: 'Aug','attributes': editableCellAttributes },
+            { id: '9',name: 'Sept','attributes': editableCellAttributes },
+            { id: '10',name: 'Oct','attributes': editableCellAttributes },
+            { id: '11',name: 'Nov','attributes': editableCellAttributes },
+            { id: '12',name: 'Dec','attributes': editableCellAttributes },
         ],
         server: {url : '/api/data/budget',
             method:'POST',
@@ -169,9 +169,11 @@ var grid_savings = new gridjs.Grid({
                 fetch('/api/data/budget_input', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                        id: ev.target.dataset.elementId,
-                        [ev.target.dataset.columnId]: ev.target.textContent
+                body: JSON.stringify({'budget_type':'Savings',
+                        'category_type':ev.target.dataset.elementId,
+                        'year':document.getElementById("year_selected").value,
+                        'month':ev.target.dataset.columnId,
+                        'amount':ev.target.textContent
                     }),
                     });
                 }
