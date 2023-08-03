@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Flask Auth Example</title>
+    <title>My Flask Budget App</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
 </head>
 
@@ -24,8 +24,11 @@
                                 Home
                             </a>
                             {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('main.profile') }}" class="navbar-item">
-                                Profile
+                            <a href="{{ url_for('main.budget') }}" class="navbar-item">
+                                Budget
+                            </a>
+                            <a href="{{ url_for('main.transaction') }}" class="navbar-item">
+                                Transaction
                             </a>
                             {% endif %}
                             {% if not current_user.is_authenticated %}

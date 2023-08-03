@@ -1,0 +1,72 @@
+<!-- templates/budget.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<html>
+  <head>
+    <title>Editable Table</title>
+    <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+    <style>
+      body {
+        font-family: Sans-Serif;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+    <div>
+      <form action='/budget/input' method='post' id="category_name_form">
+        <fieldset>
+          <h1>New Category input</h1>
+        <label for="Type">Type:</label>
+        <select name="budget_type" id="budget_type_selected" onchange="update_category_list()"> 
+          <option value="Type" selected="selected">Type</option> 
+          <option value="Income">Income</option> 
+          <option value="Expense">Expense</option> 
+          <option value="Savings">Savings</option> 
+        </select>
+
+      <label for="category_name">Category name:</label>
+      <input type="text" id="category_name" name="category_name" required minlength="1" maxlength="25" size="10">
+  
+      <input type="submit" value="Submit" from="category_name_form">
+    </fieldset> 
+    </form>
+    </div>
+
+    <div>
+      <label for="year_selected">Year:</label> 
+      <select name="year_selected" id="year_selected" onchange="update_budget_tables()"> 
+        <option value="2023">2023</option> 
+        <option value="2024">2024</option> 
+        <option value="2025">2025</option> 
+        <option value="2026">2026</option>
+        <option value="2027">2027</option> 
+        <option value="2028">2028</option> 
+        <option value="2029">2029</option> 
+        <option value="2030">2030</option>
+      </select>
+    </div>
+    <script src="{{url_for('static', filename='budget_grid.js')}}" defer></script>
+    <div>
+      <hr>
+      <h1>Income Table</h1>
+      <hr>
+      <div id="Income"></div>
+    </div>
+    <div>
+      <hr>
+      <h1>Expense Table</h1>
+      <hr>
+      <div id="Expense"></div>
+    </div>
+    <div>
+      <hr>
+      <h1>Savings Table</h1>
+      <hr>
+      <div id="Savings"></div>
+    </div>
+  </body>
+</html>
+{% endblock %}

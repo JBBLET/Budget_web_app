@@ -12,20 +12,28 @@ const tableDiv_income = document.getElementById("Income");
 var grid_income = new gridjs.Grid({
         columns: [
             { id: 'id', name: 'Category','attributes': editableCellAttributes},
-            { id: '1', name : 'Janv','attributes': editableCellAttributes },
-            { id: '2',name: 'Fev','attributes': editableCellAttributes },
-            { id: '3',name: 'March','attributes': editableCellAttributes },
-            { id: '4',name: 'April','attributes': editableCellAttributes },
-            { id: '5',name: 'May','attributes': editableCellAttributes },
-            { id: '6',name: 'June','attributes': editableCellAttributes },
-            { id: '7',name: 'July','attributes': editableCellAttributes },
-            { id: '8',name: 'Aug','attributes': editableCellAttributes },
-            { id: '9',name: 'Sept','attributes': editableCellAttributes },
-            { id: '10',name: 'Oct','attributes': editableCellAttributes },
-            { id: '11',name: 'Nov','attributes': editableCellAttributes },
-            { id: '12',name: 'Dec','attributes': editableCellAttributes },
+            { id: '1', name : 'Jan.','attributes': editableCellAttributes },
+            { id: '2', name: 'Fev.','attributes': editableCellAttributes },
+            { id: '3', name: 'Mar.','attributes': editableCellAttributes },
+            { id: '4', name: 'Apr.','attributes': editableCellAttributes },
+            { id: '5', name: 'May.','attributes': editableCellAttributes },
+            { id: '6', name: 'Jun.','attributes': editableCellAttributes },
+            { id: '7', name: 'Jul.','attributes': editableCellAttributes },
+            { id: '8', name: 'Aug.','attributes': editableCellAttributes },
+            { id: '9', name: 'Sep.','attributes': editableCellAttributes },
+            { id: '10', name: 'Oct.','attributes': editableCellAttributes },
+            { id: '11', name: 'Nov.','attributes': editableCellAttributes },
+            { id: '12', name: 'Dec.','attributes': editableCellAttributes },
         ],
-        server: {url : '/api/data/budget',
+        style: {
+            td: {
+              border: '1px solid #ccc'
+            },
+            table: {
+              'font-size': '10px'
+            }
+          },
+        server: {url : '/budget/api/data',
             method:'POST',
             headers: {'Content-Type': 'application/json'},
             body:JSON.stringify({'type':'Income', 'year':document.getElementById("year_selected").value}),
@@ -42,7 +50,7 @@ var grid_income = new gridjs.Grid({
         tableDiv_income.addEventListener('focusout', ev => {
             if (ev.target.tagName === 'TD') {
             if (savedValue_income !== ev.target.textContent) {
-                fetch('/api/data/budget_input', {
+                fetch('/budget/api/data_input', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({'budget_type':'Income',
@@ -74,20 +82,28 @@ const tableDiv_expense = document.getElementById("Expense");
 var grid_expense = new gridjs.Grid({
         columns: [
             { id: 'id', name: 'Category','attributes': editableCellAttributes},
-            { id: '1', name : 'Janv','attributes': editableCellAttributes },
-            { id: '2',name: 'Fev','attributes': editableCellAttributes },
-            { id: '3',name: 'March','attributes': editableCellAttributes },
-            { id: '4',name: 'April','attributes': editableCellAttributes },
-            { id: '5',name: 'May','attributes': editableCellAttributes },
-            { id: '6',name: 'June','attributes': editableCellAttributes },
-            { id: '7',name: 'July','attributes': editableCellAttributes },
-            { id: '8',name: 'Aug','attributes': editableCellAttributes },
-            { id: '9',name: 'Sept','attributes': editableCellAttributes },
-            { id: '10',name: 'Oct','attributes': editableCellAttributes },
-            { id: '11',name: 'Nov','attributes': editableCellAttributes },
-            { id: '12',name: 'Dec','attributes': editableCellAttributes },
+            { id: '1', name : 'Jan.','attributes': editableCellAttributes },
+            { id: '2', name: 'Fev.','attributes': editableCellAttributes },
+            { id: '3', name: 'Mar.','attributes': editableCellAttributes },
+            { id: '4', name: 'Apr.','attributes': editableCellAttributes },
+            { id: '5', name: 'May.','attributes': editableCellAttributes },
+            { id: '6', name: 'Jun.','attributes': editableCellAttributes },
+            { id: '7', name: 'Jul.','attributes': editableCellAttributes },
+            { id: '8', name: 'Aug.','attributes': editableCellAttributes },
+            { id: '9', name: 'Sep.','attributes': editableCellAttributes },
+            { id: '10', name: 'Oct.','attributes': editableCellAttributes },
+            { id: '11', name: 'Nov.','attributes': editableCellAttributes },
+            { id: '12', name: 'Dec.','attributes': editableCellAttributes },
         ],
-        server: {url : '/api/data/budget',
+        style: {
+            td: {
+              border: '1px solid #ccc'
+            },
+            table: {
+              'font-size': '10px'
+            }
+          },
+        server: {url : '/budget/api/data',
             method:'POST',
             headers: {'Content-Type': 'application/json'},
             body:JSON.stringify({'type':'Expense', 'year':document.getElementById("year_selected").value}),
@@ -104,7 +120,7 @@ var grid_expense = new gridjs.Grid({
         tableDiv_expense.addEventListener('focusout', ev => {
             if (ev.target.tagName === 'TD') {
             if (savedValue_expense !== ev.target.textContent) {
-                fetch('/api/data/budget_input', {
+                fetch('/budget/api/data_input', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({'budget_type':'Expense',
@@ -136,20 +152,28 @@ const tableDiv_savings = document.getElementById("Savings");
 var grid_savings = new gridjs.Grid({
         columns: [
             { id: 'id', name: 'Category','attributes': editableCellAttributes},
-            { id: '1', name : 'Janv','attributes': editableCellAttributes },
-            { id: '2',name: 'Fev','attributes': editableCellAttributes },
-            { id: '3',name: 'March','attributes': editableCellAttributes },
-            { id: '4',name: 'April','attributes': editableCellAttributes },
-            { id: '5',name: 'May','attributes': editableCellAttributes },
-            { id: '6',name: 'June','attributes': editableCellAttributes },
-            { id: '7',name: 'July','attributes': editableCellAttributes },
-            { id: '8',name: 'Aug','attributes': editableCellAttributes },
-            { id: '9',name: 'Sept','attributes': editableCellAttributes },
-            { id: '10',name: 'Oct','attributes': editableCellAttributes },
-            { id: '11',name: 'Nov','attributes': editableCellAttributes },
-            { id: '12',name: 'Dec','attributes': editableCellAttributes },
+            { id: '1', name : 'Jan.','attributes': editableCellAttributes },
+            { id: '2', name: 'Fev.','attributes': editableCellAttributes },
+            { id: '3', name: 'Mar.','attributes': editableCellAttributes },
+            { id: '4', name: 'Apr.','attributes': editableCellAttributes },
+            { id: '5', name: 'May.','attributes': editableCellAttributes },
+            { id: '6', name: 'Jun.','attributes': editableCellAttributes },
+            { id: '7', name: 'Jul.','attributes': editableCellAttributes },
+            { id: '8', name: 'Aug.','attributes': editableCellAttributes },
+            { id: '9', name: 'Sep.','attributes': editableCellAttributes },
+            { id: '10', name: 'Oct.','attributes': editableCellAttributes },
+            { id: '11', name: 'Nov.','attributes': editableCellAttributes },
+            { id: '12', name: 'Dec.','attributes': editableCellAttributes },
         ],
-        server: {url : '/api/data/budget',
+        style: {
+            td: {
+              border: '1px solid #ccc'
+            },
+            table: {
+              'font-size': '10px'
+            }
+          },
+        server: {url : '/budget/api/data',
             method:'POST',
             headers: {'Content-Type': 'application/json'},
             body:JSON.stringify({'type':'Savings', 'year':document.getElementById("year_selected").value}),
@@ -166,7 +190,7 @@ var grid_savings = new gridjs.Grid({
         tableDiv_savings.addEventListener('focusout', ev => {
             if (ev.target.tagName === 'TD') {
             if (savedValue_savings !== ev.target.textContent) {
-                fetch('/api/data/budget_input', {
+                fetch('/budget/api/data_input', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({'budget_type':'Savings',
@@ -194,20 +218,20 @@ var grid_savings = new gridjs.Grid({
                 }
             });
 
-function update_tables() {
-    grid_income.updateConfig({server: {url : '/api/data/budget',
+function update_budget_tables() {
+    grid_income.updateConfig({server: {url : '/budget/api/data',
     method:'POST',
     headers: {'Content-Type': 'application/json'},
     body:JSON.stringify({'type':'Income', 'year':document.getElementById("year_selected").value}),
     then :result => result.data}}).forceRender(tableDiv_income);
     
-    grid_expense.updateConfig({server: {url : '/api/data/budget',
+    grid_expense.updateConfig({server: {url : '/budget/api/data',
     method:'POST',
     headers: {'Content-Type': 'application/json'},
     body:JSON.stringify({'type':'Expense', 'year':document.getElementById("year_selected").value}),
     then :result => result.data}}).forceRender(tableDiv_expense);
 
-    grid_savings.updateConfig({server: {url : '/api/data/budget',
+    grid_savings.updateConfig({server: {url : '/budget/api/data',
     method:'POST',
     headers: {'Content-Type': 'application/json'},
     body:JSON.stringify({'type':'Savings', 'year':document.getElementById("year_selected").value}),
