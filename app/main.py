@@ -2,7 +2,7 @@
 from flask import Blueprint, render_template, request,abort
 from flask_login import login_required, current_user
 from .models import User, Budget, Transaction, Category
-from .analysis import create_budget_table, create_transaction_table
+from .analysis import make_dashboard_data, create_budget_table, create_transaction_table, make_data_frame
 from . import db
 from datetime import datetime
 
@@ -125,3 +125,36 @@ def get_data_transaction():
 def update_transaction_input():
     data = request.get_json()
     return '', 204
+
+@main.route('/dashboard',methods=['GET','POST'])
+@login_required
+def dashboard():
+    if request.method == 'POST':
+        data = request.get_json()
+        year_selected,month_selected = data.get('year'), data.get('month')
+        if month_selected=='Current Month':
+            month_selected = [datetime.today().month]
+        elif month_selected =='Total Year':
+            month_selected=[i for i in range(1,13)]
+        else:
+            month_selected = [int(month_selected)]
+        if year_selected =='Current Year':
+            year_selected = datetime.today().year
+        
+        categories = {}
+        for budget_type in ['Income','Expense','Savings']:
+            category_list = Category.query.filter_by(user_id=current_user.id,budget_type=budget_type).all()
+            categories[budget_type] = category_list
+        output = {}
+        for month in range(1,13):
+            temp = {}
+            for budget_type in ['Income','Expense','Savings']:
+                budget_list = db.session.query(Budget,Category).join(Category).filter(Budget.user_id==current_user.id,Budget.user_id==current_user.id,Category.id==Budget.category_id,Category.budget_type==budget_type,Budget.year==year_selected,Budget.month==month).all()
+                transaction_list = db.session.query(Transaction,Category).join(Category).filter(Category.user_id==current_user.id,Transaction.user_id==current_user.id,Category.id==Transaction.category_id,Category.budget_type==budget_type,Transaction.year==year_selected,Transaction.month==month).all()
+                temp[budget_type]=[budget_list,transaction_list]
+            output[month]=temp
+        data = make_dashboard_data(categories,output,month_selected)
+        # response
+        return {'data': data }
+    else:
+        return render_template('dashboard.html')

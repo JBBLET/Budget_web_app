@@ -6,7 +6,7 @@ function remove_options(selectElement) {
         }
     }
 
-async function getPost(selectElement) {
+async function get_transaction(selectElement) {
     var response = await fetch("/transaction/api/category",   {method:'POST',
                                                                 headers:{"Content-Type":"application/json"},
                                                                 body:JSON.stringify({'type':selectElement.value})});
@@ -20,7 +20,7 @@ async function update_category_list(){
         var type_selectElement = document.getElementById("budget_type_selected");
         remove_options(category_selectElement);
         if (type_selectElement.value!='Type') {
-            var categories = await getPost(type_selectElement);
+            var categories = await get_transaction(type_selectElement);
             categories.data.forEach(category => {
                 var newOption = document.createElement("option");
                 console.log(category);
