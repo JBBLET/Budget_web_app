@@ -1,4 +1,17 @@
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function submitform() {
+    var frm = document.getElementById('transaction_form');
+    frm.submit();
+    frm.reset();
+    await sleep(1000);
+    update_transaction_tables();
+    return false; 
+ }
+
 function remove_options(selectElement) {
     var i, L = selectElement.options.length - 1;
         for(i = L; i >= 0; i--) {
@@ -27,18 +40,19 @@ async function update_category_list(){
                 newOption.value = category;
                 newOption.text = category;
                 category_selectElement.appendChild(newOption);
-        
             });
     };
     };
-async function submit_transaction_form(){
-    var form_transaction = document.forms["transaction_form"];
-    await fetch("/transaction/api/data_input",   {method:'POST',
+
+async function deleteEntry(entry_id){
+    var response = await fetch("/transaction/api/data_delete",   {method:'POST',
     headers:{"Content-Type":"application/json"},
-    body:JSON.stringify(Object.fromEntries(form_transaction))});
+    body:JSON.stringify({"transaction_id":entry_id})});
+
+    console.log(response);
+    update_transaction_tables();
     return true
 }
-
 const editableCellAttributes = (data, row, col) => {
     if (row) {
         return {contentEditable: 'true', 'data-element-id': row.cells[0].data};
@@ -55,7 +69,11 @@ var grid_transaction = new gridjs.Grid({
             { id: 'date', name : 'Date'},
             { id: 'type',name: 'Type'},
             { id: 'category',name: 'Category'},
-            { id: 'amount',name: 'Amount','attributes': editableCellAttributes },
+            { id: 'amount',name: 'Amount'},
+            { id: 'actions', name:'Actions', formatter:(cell, row)=>{return gridjs.h('button', {
+                onClick: () => {
+                    deleteEntry(row.cells[0].data)}
+            }, 'Delete');}}
         ],
         style: {
             td: {
@@ -71,44 +89,6 @@ var grid_transaction = new gridjs.Grid({
             body:JSON.stringify({'year':document.getElementById("year_selected").value,'month':document.getElementById("month_selected").value}),
             then :result => result.data}}).render(tableDiv_transaction);
 
-        let savedValue_income;
-
-        tableDiv_transaction.addEventListener('focusin', ev => {
-            if (ev.target.tagName === 'TD') {
-                savedValue_income = ev.target.textContent;
-                }
-            });
-    
-        tableDiv_transaction.addEventListener('focusout', ev => {
-            if (ev.target.tagName === 'TD') {
-            if (savedValue_income !== ev.target.textContent) {
-                fetch('/transaction/api/data_input', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({'budget_type':'Income',
-                        'category_type':ev.target.dataset.elementId,
-                        'year':document.getElementById("year_selected").value,
-                        'column':ev.target.dataset.columnId,
-                        'input':ev.target.textContent
-                    }),
-                    });
-                }
-            savedValue_income = undefined;
-                }
-            });
-            
-        tableDiv_transaction.addEventListener('keydown', ev => {
-            if (ev.target.tagName === 'TD') {
-            if (ev.key === 'Escape') {
-                ev.target.textContent = savedValue_transaction;
-                ev.target.blur();
-                }
-            else if (ev.key === 'Enter') {
-                ev.preventDefault();
-                ev.target.blur();
-                }
-                }
-            });
 
 function update_transaction_tables() {
     grid_transaction.updateConfig({server: {url : '/transaction/api/data',

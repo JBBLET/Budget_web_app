@@ -119,13 +119,17 @@ def get_data_transaction():
         'data': data 
     }
 
-
-@main.route('/transaction/api/data_input', methods=['POST'])
+@main.route('/transaction/api/data_delete', methods=['POST'])
 @login_required
-def update_transaction_input():
+def delete_transaction():
     data = request.get_json()
+    print(data['transaction_id'])
+    db.session.query(Transaction).filter(Transaction.user_id==current_user.id,Transaction.id==int(data['transaction_id'])).delete()
+    db.session.commit()
     return '', 204
 
+
+###Dashboard Handling
 @main.route('/dashboard',methods=['GET','POST'])
 @login_required
 def dashboard():
