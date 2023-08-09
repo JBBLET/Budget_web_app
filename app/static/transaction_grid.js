@@ -65,16 +65,19 @@ const editableCellAttributes = (data, row, col) => {
 const tableDiv_transaction = document.getElementById("Transaction");    
 var grid_transaction = new gridjs.Grid({
         columns: [
-            { id: 'id', name: 'Transaction_id', hidden:true},
-            { id: 'date', name : 'Date'},
-            { id: 'type',name: 'Type'},
-            { id: 'category',name: 'Category'},
-            { id: 'amount',name: 'Amount'},
-            { id: 'actions', name:'Actions', formatter:(cell, row)=>{return gridjs.h('button', {
+            { id: 'id', name: 'Transaction_id', hidden: true},
+            { id: 'date', name: 'Date', sort: true},
+            { id: 'type', name: 'Type'},
+            { id: 'category', name: 'Category'},
+            { id: 'amount', name: 'Amount'},
+            { id: 'actions', name: 'Actions', formatter:(cell, row)=>{return gridjs.h('button', {
                 onClick: () => {
                     deleteEntry(row.cells[0].data)}
             }, 'Delete');}}
         ],
+        search: true,
+        pagination: {
+            limit: 50},
         style: {
             td: {
               border: '1px solid #ccc'
