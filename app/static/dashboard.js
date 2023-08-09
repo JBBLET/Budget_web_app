@@ -3,8 +3,8 @@ var chartExpense;
 var chartSavings;
 var chartbar;
 
-function initialSetup(){
-  async function initialFetch(){
+function initial_setup(){
+  async function initial_fetch(){
     const response  = await fetch("/dashboard",   {method:'POST',
                           headers:{"Content-Type":"application/json"},
                           body:JSON.stringify({'year':document.getElementById("year_selected").value,'month':document.getElementById("month_selected").value})});
@@ -12,12 +12,12 @@ function initialSetup(){
     const data = await response.json();
     return data;
   };
-  initialFetch().then(data => {
+  initial_fetch().then(data => {
     var initialData =  data.data;
     const configIncomeDoughnut = {type:'doughnut',
                                   data: {labels : initialData.Doughnut_Income.labels,
                                           datasets : initialData.Doughnut_Income.datasets},
-                                          options: {responsive: false}
+                                  options: {responsive: false}
                                 };                             
     chartIncome = new Chart(document.getElementById('IncomeDoughnut').getContext("2d"), configIncomeDoughnut);
 
@@ -38,15 +38,20 @@ function initialSetup(){
     const configBarChart = {type: 'bar',
                             data: {labels : initialData.BarChart.labels,
                                   datasets : initialData.BarChart.data},
-                            options: {responsive: false}
+                            options: {responsive: false,
+                              plugins:{
+                                legend:{
+                                  display: false
+                                }
+                              }}
                           };
     chartBar = new Chart(document.getElementById('BarChart').getContext("2d"), configBarChart);
             
   });
   };
 
-function updateChart(){
-  async function fetchData(){
+function update_chart(){
+  async function fetch_data(){
     const response  = await fetch("/dashboard",   {method:'POST',
                           headers:{"Content-Type":"application/json"},
                           body:JSON.stringify({'year':document.getElementById("year_selected").value,'month':document.getElementById("month_selected").value})});
@@ -54,7 +59,7 @@ function updateChart(){
     const data = await response.json();
     return data;
   };
-  fetchData().then(data => {
+  fetch_data().then(data => {
     var dataupdate = data.data;
 
     chartIncome.data.labels = dataupdate.Doughnut_Income.labels;
@@ -76,5 +81,5 @@ function updateChart(){
 };
 
 window.onload = function() {
-    initialSetup();
+    initial_setup();
 }

@@ -20,7 +20,7 @@
     <h1>Dashboard</h1>
     <div>
       <label for="year_selected">Year:</label> 
-      <select name="year_selected" id="year_selected" onchange="updateChart()"> 
+      <select name="year_selected" id="year_selected" onchange="update_chart()"> 
           <option value="Current Year">Current Year</option> 
           <option value="2023">2023</option> 
           <option value="2024">2024</option> 
@@ -32,7 +32,7 @@
           <option value="2030">2030</option> 
       </select>
       <label for="month_selected">Month:</label> 
-      <select name="month_selected" id="month_selected" onchange="updateChart()">
+      <select name="month_selected" id="month_selected" onchange="update_chart()">
           <option value="Total Year">Total Year</option> 
           <option value="Current Month">Current Month</option> 
           <option value="1">January</option> 
@@ -51,22 +51,21 @@
     </div>
     <hr>
     <div id="DivIncomeDoughnut" class="box">
-      Income Doughnut
+      Incomes
       <canvas id="IncomeDoughnut" class="doughnut"></canvas>
     </div>
     <div id="DivExpenseDoughnut" class="box">
-      Expense Doughnut
+      Expenses
       <canvas id="ExpenseDoughnut" class="doughnut"></canvas>
     </div>
     <div id="DivSavingsDoughnut" class="box">
-      Savings Doughnut
+      Savings
       <canvas id="SavingsDoughnut" class="doughnut"></canvas>
     </div>
     <div id="DivBarchart" class="box">
       Year Barchart
-      <canvas id="BarChart"></canvas>
+      <canvas id="BarChart" class="bar"></canvas>
     </div>
   </body>
 </html>
-
 {% endblock %}

@@ -15,25 +15,6 @@
   </head>
   <body>
     <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
-    <div>
-      <form action='/budget/input' method='post' id="category_name_form">
-        <fieldset>
-          <h1>New Category input</h1>
-        <label for="Type">Type:</label>
-        <select name="budget_type" id="budget_type_selected" onchange="update_category_list()"> 
-          <option value="Type" selected="selected">Type</option> 
-          <option value="Income">Income</option> 
-          <option value="Expense">Expense</option> 
-          <option value="Savings">Savings</option> 
-        </select>
-
-      <label for="category_name">Category name:</label>
-      <input type="text" id="category_name" name="category_name" required minlength="1" maxlength="25" size="10">
-  
-      <input type="submit" value="Submit" from="category_name_form">
-    </fieldset> 
-    </form>
-    </div>
 
     <div>
       <label for="year_selected">Year:</label> 

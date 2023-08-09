@@ -36,27 +36,31 @@ def get_data_budget():
 @login_required
 def update_budget_input():
     data = request.get_json()
-    category_id_list = Category.query.filter(Category.user_id==current_user.id,Category.budget_type==data['budget_type'],Category.category_type==data['category_type']).all()
-    if data['column']=='id':
-        if category_id_list==[]:
-            category = Category(user_id=current_user.id,budget_type=data['budget_type'],category_type=data['input'])
-            db.session.add(category)
-        elif data['input']=='':
-            db.session.query(Category).filter(Category.user_id==current_user.id,Category.id==category_id_list[0].id).delete()
+    print(data['category_type'])
+    if['category_type']!='Total':
+        category_id_list = Category.query.filter(Category.user_id==current_user.id,Category.budget_type==data['budget_type'],Category.category_type==data['category_type']).all()
+        if data['column']=='id':
+            if category_id_list==[]:
+                category = Category(user_id=current_user.id,budget_type=data['budget_type'],category_type=data['input'])
+                db.session.add(category)
+            elif data['input']=='':
+                db.session.query(Category).filter(Category.user_id==current_user.id,Category.id==category_id_list[0].id).delete()
+            else:
+                Category_selected = category_id_list[0]
+                setattr(Category_selected, 'category_type', data['input'])
         else:
-            Category_selected = category_id_list[0]
-            setattr(Category_selected, 'category_type', data['input'])
+            budget_element_list = Budget.query.filter(Budget.user_id==current_user.id,Budget.category_id==category_id_list[0].id,Budget.year==int(data['year']), Budget.month==int(data['column'])).all()
+            if budget_element_list==[]:
+                budget = Budget(user_id=current_user.id,category_id=category_id_list[0].id,year=int(data['year']),month=int(data['column']),amount=int(data['input']))
+                db.session.add(budget)
+            elif data['input']=='':
+                db.session.query(Budget).filter(Budget.user_id==current_user.id,Budget.category_id==category_id_list[0].id,year=int(data['year']),month=int(data['column'])).delete()
+            else:
+                user = budget_element_list[0]
+                setattr(user, 'amount', int(data['input']))
+        db.session.commit()
     else:
-        budget_element_list = Budget.query.filter(Budget.user_id==current_user.id,Budget.category_id==category_id_list[0].id,Budget.year==int(data['year']), Budget.month==int(data['column'])).all()
-        if budget_element_list==[]:
-            budget = Budget(user_id=current_user.id,category_id=category_id_list[0].id,year=int(data['year']),month=int(data['column']),amount=int(data['input']))
-            db.session.add(budget)
-        elif data['input']=='':
-            db.session.query(Budget).filter(Budget.user_id==current_user.id,Budget.category_id==category_id_list[0].id,year=int(data['year']),month=int(data['column'])).delete()
-        else:
-            user = budget_element_list[0]
-            setattr(user, 'amount', int(data['input']))
-    db.session.commit()
+        print('Total')
     return '', 204
 
 

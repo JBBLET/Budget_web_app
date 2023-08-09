@@ -22,9 +22,10 @@ def create_budget_table(category_list,budget_element_list):
     for category in category_list:
         out[category.id] = {"id":category.category_type,
                             "1":"","2":"","3":"","4":"","5":"","6":"","7":"","8":"","9":"","10":"","11":"","12":""}
+    out[''] = {'id':"","1":"","2":"","3":"","4":"","5":"","6":"","7":"","8":"","9":"","10":"","11":"","12":""}
+
     for elem in budget_element_list:
         out[elem.category_id][str(elem.month)] = str(elem.amount)
-    out[""] = {'id':"","1":"","2":"","3":"","4":"","5":"","6":"","7":"","8":"","9":"","10":"","11":"","12":""}
     return list(out.values())
 
 
@@ -41,21 +42,18 @@ def create_transaction_table(transaction_list):
         out.append(transaction_dict)
     return out
 
-def make_data_frame(budget_list,transaction_list,category_list):
-    out = {}
-    for category in category_list:
-        out[category.category_type] = {'Tracked':0,'Budget':0}
+def make_data_frame(cat_list,budget_list,transaction_list):
+    df = pd.DataFrame(0,index=[cat.category_type for cat in cat_list],columns=['Tracked','Budget'])
     for budget_entry in budget_list:
-        out[budget_entry[1].category_type]['Budget']+=budget_entry[0].amount
+            df.loc[budget_entry[1].category_type,'Budget']+=budget_entry[0].amount
     for transaction_entry in transaction_list:
-        out[transaction_entry[1].category_type]['Tracked']+=transaction_entry[0].amount
-    
-    data = pd.DataFrame.from_dict(out,orient='index')
-    data.sort_values(by=['Tracked','Budget'])
-    return(data)
+            df.loc[transaction_entry[1].category_type,'Tracked']+=transaction_entry[0].amount
+    df.sort_values(by=['Tracked','Budget'])
+    return(df)
 
-def make_year_df(month_df):
-    year_df = month_df[1] 
+def make_year_df(categories,month_df):
+    
+    year_df = {key:pd.DataFrame(0,index=[cat.category_type for cat in item],columns=['Tracked','Budget']) for key, item in categories.items()}
     for i in range(2,13):
         for budget in budget_type:
             year_df[budget]+=month_df[i][budget]
@@ -96,26 +94,25 @@ def make_year_barcharts(year_data):
     for i in range(len(budget_type)):
         dataset = {}
         dataset['label'] = budget_type[i]
-        dataset['data'] = [str(year_data[month][budget_type[i]]['Tracked'].sum()) for month in range(1,13)]
+        dataset['data'] = [str(min(year_data[month][budget_type[i]]['Tracked'].sum(),year_data[month][budget_type[i]]['Budget'].sum())) for month in range(1,13)]
         color = colors[budget_type[i]][2]
         dataset['backgroundColor'] = "rgb({},{},{})".format(color[0],color[1],color[2])
         dataset['stack']= 'Stack '+str(i)
         data['data'].append(dataset)
-    """
+
         dataset = {'label':budget_type[i]+' Excess'}
-        dataset['data'] = [str(year_data[month][budget_type[i]]['Excess'].sum()) for month in range(1,13)]
-        color = colors[budget_type[i]][1]
+        dataset['data'] = [str(max(0,year_data[month][budget_type[i]]['Tracked'].sum()-year_data[month][budget_type[i]]['Budget'].sum())) for month in range(1,13)]
+        color = colors[budget_type[i]][0]
         dataset['backgroundColor'] = "rgb({},{},{})".format(color[0],color[1],color[2])
         dataset['stack']= 'Stack '+str(i)
         data['data'].append(dataset)
 
         dataset = {'label':budget_type[i]+' Remaining'}
-        dataset['data'] = [str(year_data[month][budget_type[i]]['Remaining'].sum()) for month in range(1,13)]
-        color = colors[budget_type[i]][0]
+        dataset['data'] = [str(max(0,year_data[month][budget_type[i]]['Budget'].sum()-year_data[month][budget_type[i]]['Tracked'].sum())) for month in range(1,13)]
+        color = colors[budget_type[i]][1]
         dataset['backgroundColor'] = "rgb({},{},{})".format(color[0],color[1],color[2])
         dataset['stack']= 'Stack '+str(i)
         data['data'].append(dataset)
-    """
     return data
 
 def make_dashboard_data(categories,year_data,months):
@@ -123,13 +120,12 @@ def make_dashboard_data(categories,year_data,months):
     months_df = {}
     for key ,item in year_data.items():
         temp = {}
-        for budget_type, cat in categories.items():
-            df = make_data_frame(item[budget_type][0],item[budget_type][1],cat)
-            temp[budget_type] = df
+        for budget in budget_type:
+            df = make_data_frame(categories[budget],item[budget][0],item[budget][1])
+            temp[budget] = df
         months_df[key] = temp
-
     if len(months)!=1:
-        year_df = make_year_df(months_df)
+        year_df = make_year_df(categories,months_df)
         complete_df(year_df)
         output['Doughnut_Income'] = make_doughnut(year_df, 'Income', 'Year')
         output['Doughnut_Expense'] = make_doughnut(year_df, 'Expense', 'Year')
