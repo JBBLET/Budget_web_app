@@ -25,7 +25,7 @@ def create_budget_table(category_list,budget_element_list):
     out[''] = {'id':"","1":"","2":"","3":"","4":"","5":"","6":"","7":"","8":"","9":"","10":"","11":"","12":""}
 
     for elem in budget_element_list:
-        out[elem.category_id][str(elem.month)] = str(elem.amount)
+        out[elem.category_id][str(elem.month)] = elem.amount
     return list(out.values())
 
 
@@ -66,7 +66,7 @@ def complete_df(df_dict):
         for index, row in df_dict[budget].iterrows():
             if row['Budget'] != 0:
                 percentage = (row['Tracked']/row['Budget'])*100
-                Completed.append("{:.2f}".format(percentage)+'%')
+                Completed.append("{:.2f}".format(percentage)+' %')
             else:
                 Completed.append('0.00%')
             if row['Tracked'] >= row['Budget']:
@@ -78,15 +78,43 @@ def complete_df(df_dict):
         df_dict[budget]['Completed'] = Completed
         df_dict[budget]['Excess'] = Excess
         df_dict[budget]['Remaining'] = Remaining
-    
+
+def make_table(dict_df):
+    out = {}
+    for budget in budget_type:
+        df = dict_df[budget]
+        total  = [df['Tracked'].sum(),df['Budget'].sum()]
+        if total[1]!=0:
+            total.append("{:.2f}".format(total[0]/total[1])+' %')
+        else:
+            total.append('0.00%')
+        if total[0] >= total[1]:
+            total.append(total[0]-total[1])
+            total.append(0)
+        else:
+            total.append(0)
+            total.append(total[1]-total[0])
+        df.loc['Total'] = total
+        df = df.reset_index(inplace=False)
+        df = df.rename(columns = {'index':'Category'})
+        out[budget] = list(df.to_dict('index').values())
+    return(out)
+
 def make_doughnut(dict_df,budget_type,label):
     data = {'datasets':[]}
     df = dict_df[budget_type]
     df = df[df.Tracked != 0]
     data['labels'] = list(df.index)
-    data['datasets'].append({'data':[str(el) for el in list(df['Tracked'])],
-                             'label':label,
-                             'backgroundColor':linear_gradient(colors[budget_type][1],colors[budget_type][0],len(data['labels']))})
+    if len(data['labels'])<4:
+        data['datasets'].append({'data':[el for el in list(df['Tracked'])],
+                                'label':label,
+                                'backgroundColor':linear_gradient(colors[budget_type][1],colors[budget_type][0],len(data['labels']))})
+    else:
+        data['labels'] = list(df.index)[:4]+['Other']
+        data['datasets'].append({'data':[el for el in list(df['Tracked'])[:4]]+[sum(list(df['Tracked'])[4:])],
+                                'label':label,
+                                'backgroundColor':linear_gradient(colors[budget_type][1],colors[budget_type][0],len(data['labels']))})
+    print(data)
     return data
 
 def make_year_barcharts(year_data):
@@ -130,11 +158,15 @@ def make_dashboard_data(categories,year_data,months):
         output['Doughnut_Income'] = make_doughnut(year_df, 'Income', 'Year')
         output['Doughnut_Expense'] = make_doughnut(year_df, 'Expense', 'Year')
         output['Doughnut_Savings'] = make_doughnut(year_df, 'Savings', 'Year')
+        output['Table']=make_table(year_df)
     else:
         output['Doughnut_Income'] = make_doughnut(months_df[months[0]], 'Income', month_name[months[0]])
         output['Doughnut_Expense'] = make_doughnut(months_df[months[0]], 'Expense', month_name[months[0]])
         output['Doughnut_Savings'] = make_doughnut(months_df[months[0]], 'Savings', month_name[months[0]])
+        
     for key ,item in months_df.items():
         complete_df(item)
     output['BarChart'] = make_year_barcharts(months_df)
+    if len(months)==1:
+        output['Table'] = make_table(months_df[months[0]])
     return(output)

@@ -7,6 +7,14 @@ var grid_expense;
 var tableDiv_savings;
 var grid_savings;
 
+function styling(string){
+    if (string!=''){
+        return Number(string).toLocaleString();
+    }
+    else{
+        return '';
+    }
+}
 const editableCellAttributes = (data, row, col) => {
     if (row) {
         return {contentEditable: 'true', 'data-element-id': row.cells[0].data};
@@ -21,18 +29,18 @@ function initial_setup(){
     grid_income = new gridjs.Grid({
             columns: [
                 { id: 'id', name: 'Category','attributes': editableCellAttributes},
-                { id: '1', name : 'Jan.','attributes': editableCellAttributes },
-                { id: '2', name: 'Fev.','attributes': editableCellAttributes },
-                { id: '3', name: 'Mar.','attributes': editableCellAttributes },
-                { id: '4', name: 'Apr.','attributes': editableCellAttributes },
-                { id: '5', name: 'May.','attributes': editableCellAttributes },
-                { id: '6', name: 'Jun.','attributes': editableCellAttributes },
-                { id: '7', name: 'Jul.','attributes': editableCellAttributes },
-                { id: '8', name: 'Aug.','attributes': editableCellAttributes },
-                { id: '9', name: 'Sep.','attributes': editableCellAttributes },
-                { id: '10', name: 'Oct.','attributes': editableCellAttributes },
-                { id: '11', name: 'Nov.','attributes': editableCellAttributes },
-                { id: '12', name: 'Dec.','attributes': editableCellAttributes },
+                { id: '1', name : 'Jan.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '2', name: 'Fev.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '3', name: 'Mar.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '4', name: 'Apr.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '5', name: 'May.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '6', name: 'Jun.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '7', name: 'Jul.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '8', name: 'Aug.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '9', name: 'Sep.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '10', name: 'Oct.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '11', name: 'Nov.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '12', name: 'Dec.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
             ],
             style: {
                 td: {
@@ -90,19 +98,19 @@ function initial_setup(){
     tableDiv_expense = document.getElementById("Expense");    
     grid_expense = new gridjs.Grid({
             columns: [
-                { id: 'id', name: 'Category','attributes': editableCellAttributes},
-                { id: '1', name : 'Jan.','attributes': editableCellAttributes },
-                { id: '2', name: 'Fev.','attributes': editableCellAttributes },
-                { id: '3', name: 'Mar.','attributes': editableCellAttributes },
-                { id: '4', name: 'Apr.','attributes': editableCellAttributes },
-                { id: '5', name: 'May.','attributes': editableCellAttributes },
-                { id: '6', name: 'Jun.','attributes': editableCellAttributes },
-                { id: '7', name: 'Jul.','attributes': editableCellAttributes },
-                { id: '8', name: 'Aug.','attributes': editableCellAttributes },
-                { id: '9', name: 'Sep.','attributes': editableCellAttributes },
-                { id: '10', name: 'Oct.','attributes': editableCellAttributes },
-                { id: '11', name: 'Nov.','attributes': editableCellAttributes },
-                { id: '12', name: 'Dec.','attributes': editableCellAttributes },
+                { id: 'id', name: 'Category', formatter: (cell)=>styling(cell), 'attributes': editableCellAttributes},
+                { id: '1', name : 'Jan.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '2', name: 'Fev.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '3', name: 'Mar.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '4', name: 'Apr.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '5', name: 'May.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '6', name: 'Jun.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '7', name: 'Jul.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '8', name: 'Aug.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '9', name: 'Sep.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '10', name: 'Oct.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '11', name: 'Nov.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '12', name: 'Dec.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
             ],
             style: {
                 td: {
@@ -161,18 +169,18 @@ function initial_setup(){
     grid_savings = new gridjs.Grid({
             columns: [
                 { id: 'id', name: 'Category','attributes': editableCellAttributes},
-                { id: '1', name : 'Jan.','attributes': editableCellAttributes },
-                { id: '2', name: 'Fev.','attributes': editableCellAttributes },
-                { id: '3', name: 'Mar.','attributes': editableCellAttributes },
-                { id: '4', name: 'Apr.','attributes': editableCellAttributes },
-                { id: '5', name: 'May.','attributes': editableCellAttributes },
-                { id: '6', name: 'Jun.','attributes': editableCellAttributes },
-                { id: '7', name: 'Jul.','attributes': editableCellAttributes },
-                { id: '8', name: 'Aug.','attributes': editableCellAttributes },
-                { id: '9', name: 'Sep.','attributes': editableCellAttributes },
-                { id: '10', name: 'Oct.','attributes': editableCellAttributes },
-                { id: '11', name: 'Nov.','attributes': editableCellAttributes },
-                { id: '12', name: 'Dec.','attributes': editableCellAttributes },
+                { id: '1', name : 'Jan.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '2', name: 'Fev.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '3', name: 'Mar.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '4', name: 'Apr.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '5', name: 'May.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '6', name: 'Jun.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '7', name: 'Jul.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '8', name: 'Aug.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '9', name: 'Sep.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '10', name: 'Oct.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '11', name: 'Nov.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
+                { id: '12', name: 'Dec.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
             ],
             style: {
                 td: {

@@ -3,46 +3,14 @@
 {% block content %}
 <html>
   <head>
-    <title>Editable Table</title>
+    <title>Transaction Page</title>
     <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
-    <style>
-      body {
-        font-family: Sans-Serif;
-      }
-    </style>
+    <link rel="stylesheet" href="{{url_for('static', filename='transaction.css')}}">
   </head>
   <body>
-    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
-
-    <div>
-    <form action='/transaction/input' method='post' id="transaction_form">
-      <fieldset>
-      <label for="Date">Date:</label> 
-      <input type="date" name ="date" id="date_selected" min="2022-01-01"> 
-
-      <label for="Type">Type:</label>
-      <select name="budget_type" id="budget_type_selected" onchange="update_category_list()"> 
-        <option value="Type" selected="selected">Type</option> 
-        <option value="Income">Income</option> 
-        <option value="Expense">Expense</option> 
-        <option value="Savings">Savings</option> 
-      </select>
-
-      <label for="category_type">Category:</label>
-      <select name="category_type" id="category_type_selected">
-        <option value="Category" selected="selected">Category</option> 
-      </select>
-      
-    <label for="Amount">Amount:</label>
-    <input type="number" placeholder="Amount" required name="amount" min="0" value="0" step=".01">
-
-    <input type="button" value="Submit" id="btnsubmit" onclick="submit_form()">
-  </fieldset> 
-  </form>
-      <script src="{{url_for('static', filename='transaction_grid.js')}}" defer></script>
-    </div>
     <hr>
-    <h1>Transaction Table</h1>
+    <h1>Transaction</h1>
+    <hr>
     <div>
       <label for="year_selected">Year:</label> 
       <select name="year_selected" id="year_selected" onchange="update_transaction_tables()"> 
@@ -74,10 +42,45 @@
           <option value="12">December</option>  
       </select>
     </div>
+    <div class="wrapper">
+      <div>div 1</div>
+      <div>div 2</div>
+      <div>div 3</div>
+      <div>div 4</div>
+    </div>
+    <hr>
+    <div class="formbox">
+    <form action='/transaction/input' method='post' id="transaction_form">
+      <div class="form">
+      <label for="Date">Date:</label> 
+      <input type="date" name ="date" id="date_selected" min="2022-01-01"> 
+
+      <label for="Type">Type:</label>
+      <select name="budget_type" id="budget_type_selected" onchange="update_category_list()"> 
+        <option value="Type" selected="selected">Type</option> 
+        <option value="Income">Income</option> 
+        <option value="Expense">Expense</option> 
+        <option value="Savings">Savings</option> 
+      </select>
+
+      <label for="category_type">Category:</label>
+      <select name="category_type" id="category_type_selected">
+        <option value="Category" selected="selected">Category</option> 
+      </select>
+      
+    <label for="Amount">Amount:</label>
+    <input type="number" placeholder="Amount" required name="amount" min="0" value="0" step=".01">
+
+    <input type="button" value="Submit" id="btnsubmit" onclick="submit_form()"> 
+  </div>
+  </form>
+    </div>
     <div>
-      <hr>
+      
       <div id="Transaction"></div>
     </div>
+    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+    <script src="{{url_for('static', filename='transaction_grid.js')}}" defer></script>
   </body>
 </html>
 {% endblock %}

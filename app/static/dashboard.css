@@ -3,12 +3,47 @@ body, html {
     margin: 0;
     height: 100%;
 }
-
-.box {
+.boxleft {
+    border-radius: 10px;
+    box-sizing: border-box;
+    float: left;
+    width: 45%;
+    height: 100%;
+    border: 1px solid black;
+    background-color: white;
+}
+.boxright {
+    border-radius: 25px;
+    box-sizing: border-box;
+    float: right;
+    width: 55%;
+    height: 100%;
+    border: 1px solid black;
+    background-color: white;
+}
+.box_graph {
+    border-radius: 25px;
     box-sizing: border-box;
     float: left;
     width: 50%;
     height: 50%;
+    background-color: white;
+
+}
+.wrapper
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.wrapper div {
+    border-radius: 25px;
+    width: 200px;
+    height: 100px;
+    background-color: white;
+    margin: 10px;
+    border: 1px solid black;
+    color: black;
 }
 
 .doughnut {
@@ -17,7 +52,7 @@ body, html {
 }
 .bar{
     width:100%;
-    height:100%;
+    height: 100%;
 }
 canvas {
     padding-left: 0;
@@ -27,4 +62,14 @@ canvas {
     display: block;
     width:120%;
     height:120%;
+}
+
+.td_grid {
+    line-height: 8px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+.table_grid{
+    font-size: 7px;
+    table-layout: fixed;
 }

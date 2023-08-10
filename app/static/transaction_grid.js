@@ -6,6 +6,14 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function styling(string){
+    if (string!=''){
+        return Number(string).toLocaleString();
+    }
+    else{
+        return '';
+    }
+}
 async function submit_form() {
     //Submit the form to update the database and the call the updating of the grid
     var frm = document.getElementById('transaction_form');
@@ -71,7 +79,7 @@ function initial_setup(){
             { id: 'date', name: 'Date', sort: true},
             { id: 'type', name: 'Type'},
             { id: 'category', name: 'Category'},
-            { id: 'amount', name: 'Amount'},
+            { id: 'amount', name: 'Amount', formatter: (cell)=>styling(cell)},
             { id: 'actions', name: 'Actions', formatter:(cell, row)=>{return gridjs.h('button', {
                 onClick: () => {
                     delete_entry(row.cells[0].data)}

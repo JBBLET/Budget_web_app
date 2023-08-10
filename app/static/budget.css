@@ -1,0 +1,15 @@
+.wrapper
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.wrapper div {
+    border-radius: 25px;
+    width: 200px;
+    height: 100px;
+    background-color: white;
+    margin: 10px;
+    border: 1px solid black;
+    color: black;
+}

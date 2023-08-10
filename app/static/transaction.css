@@ -10,3 +10,23 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     top: 0;
     width: auto;
 }
+.formbox {
+    border-radius: 15px;
+    border: 1px solid black;
+}
+
+.wrapper
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.wrapper div {
+    border-radius: 25px;
+    width: 200px;
+    height: 100px;
+    background-color: white;
+    margin: 10px;
+    border: 1px solid black;
+    color: black;
+}

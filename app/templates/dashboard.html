@@ -4,20 +4,14 @@
 {% block content %}
 <html>
   <head>
-    <title>My Dashboard</title>
+    <title>Dashboard Page</title>
     <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{url_for('static', filename='dashboard.css')}}">
-    <style>
-      body {
-        font-family: Sans-Serif;
-      }
-    </style>
   </head>
   <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.min.js"></script>
-    <script src="{{url_for('static', filename='dashboard.js')}}"></script>
     <hr>
     <h1>Dashboard</h1>
+    <hr>
     <div>
       <label for="year_selected">Year:</label> 
       <select name="year_selected" id="year_selected" onchange="update_chart()"> 
@@ -49,23 +43,36 @@
           <option value="12">December</option>  
       </select>
     </div>
+    <div class="wrapper">
+      <div>div 1</div>
+      <div>div 2</div>
+      <div>div 3</div>
+      <div>div 4</div>
+    </div>
     <hr>
-    <div id="DivIncomeDoughnut" class="box">
-      Incomes
-      <canvas id="IncomeDoughnut" class="doughnut"></canvas>
+    <div id="table" class="boxleft">
+      <div id="Income"></div>
+      <div id="Expense"></div>
+      <div id="Savings"></div>
     </div>
-    <div id="DivExpenseDoughnut" class="box">
-      Expenses
-      <canvas id="ExpenseDoughnut" class="doughnut"></canvas>
+    <div id="graphs" class="boxright">
+      <div id="DivIncomeDoughnut" class="box_graph">
+        <canvas id="IncomeDoughnut" class="doughnut"></canvas>
+      </div>
+      <div id="DivExpenseDoughnut" class="box_graph">
+        <canvas id="ExpenseDoughnut" class="doughnut"></canvas>
+      </div>
+      <div id="DivSavingsDoughnut" class="box_graph">
+        <canvas id="SavingsDoughnut" class="doughnut"></canvas>
+      </div>
+      <div id="DivBarchart" class="box_graph">
+        <canvas id="BarChart" class="bar"></canvas>
+      </div>
     </div>
-    <div id="DivSavingsDoughnut" class="box">
-      Savings
-      <canvas id="SavingsDoughnut" class="doughnut"></canvas>
-    </div>
-    <div id="DivBarchart" class="box">
-      Year Barchart
-      <canvas id="BarChart" class="bar"></canvas>
-    </div>
+    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="{{url_for('static', filename='dashboard.js')}}"></script>
   </body>
 </html>
 {% endblock %}

@@ -5,17 +5,14 @@
 {% block content %}
 <html>
   <head>
-    <title>Editable Table</title>
+    <title>Budget Page</title>
     <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
-    <style>
-      body {
-        font-family: Sans-Serif;
-      }
-    </style>
+    <link rel="stylesheet" href="{{url_for('static', filename='budget.css')}}">
   </head>
   <body>
-    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
-
+    <hr>
+    <h1>Budget</h1>
+    <hr>
     <div>
       <label for="year_selected">Year:</label> 
       <select name="year_selected" id="year_selected" onchange="update_budget_tables()"> 
@@ -29,7 +26,12 @@
         <option value="2030">2030</option>
       </select>
     </div>
-    <script src="{{url_for('static', filename='budget_grid.js')}}" defer></script>
+    <div class="wrapper">
+      <div>div 1</div>
+      <div>div 2</div>
+      <div>div 3</div>
+      <div>div 4</div>
+    </div>
     <div>
       <hr>
       <h1>Income Table</h1>
@@ -48,6 +50,8 @@
       <hr>
       <div id="Savings"></div>
     </div>
+    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+    <script src="{{url_for('static', filename='budget_grid.js')}}" defer></script>
   </body>
 </html>
 {% endblock %}
