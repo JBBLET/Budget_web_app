@@ -36,7 +36,7 @@ async function get_category(selectElement) {
     //call the server to get a list of the categories available for the selected first select
     var response = await fetch("/transaction/api/category",   {method:'POST',
                                                                 headers:{"Content-Type":"application/json"},
-                                                                body:JSON.stringify({'type':selectElement.value})});
+                                                                body:JSON.stringify({'type':selectElement.value,'year':document.getElementById("year_selected").value})});
     console.log(response);
     var data = response.json();
     return data;
@@ -96,7 +96,7 @@ function initial_setup(){
               'font-size': '12px'
             }
           },
-        server: {url : '/transaction/api/data',
+        server: {url : '/transaction',
             method:'POST',
             headers: {'Content-Type': 'application/json'},
             body:JSON.stringify({'year':document.getElementById("year_selected").value,'month':document.getElementById("month_selected").value}),
@@ -106,7 +106,7 @@ function initial_setup(){
 
 function update_transaction_tables() {
     //change the config to fecth the data again force render the grid
-    grid_transaction.updateConfig({server: {url : '/transaction/api/data',
+    grid_transaction.updateConfig({server: {url : '/transaction',
     method:'POST',
     headers: {'Content-Type': 'application/json'},
     body:JSON.stringify({'year':document.getElementById("year_selected").value,'month':document.getElementById("month_selected").value}),

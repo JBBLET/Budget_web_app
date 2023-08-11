@@ -53,7 +53,7 @@
     <form action='/transaction/input' method='post' id="transaction_form">
       <div class="form">
       <label for="Date">Date:</label> 
-      <input type="date" name ="date" id="date_selected" min="2022-01-01"> 
+      <input type="date" name ="date" id="date_selected" min="2023-01-01"> 
 
       <label for="Type">Type:</label>
       <select name="budget_type" id="budget_type_selected" onchange="update_category_list()"> 
@@ -72,6 +72,36 @@
     <input type="number" placeholder="Amount" required name="amount" min="0" value="0" step=".01">
 
     <input type="button" value="Submit" id="btnsubmit" onclick="submit_form()"> 
+    {% with errors = get_flashed_messages(category_filter=["error"]) %}
+    {% if errors %}
+    <div class="alert alert-danger alert-dismissible fade show"
+             role="alert">
+            <ul>
+                {%- for msg in errors %}
+                <li>{{ msg }}</li>
+                {% endfor -%}
+            </ul>
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% endwith %}
+        {% with messages = get_flashed_messages(category_filter=["success"]) %}
+        {% if messages %}
+        <div class="alert alert-success alert-dismissible fade show"
+             role="alert">
+            <ul>
+                {%- for msg in messages %}
+                <li>{{ msg }}</li>
+                {% endfor -%}
+            </ul>
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% endwith %}
   </div>
   </form>
     </div>

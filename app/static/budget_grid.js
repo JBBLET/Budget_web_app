@@ -50,7 +50,7 @@ function initial_setup(){
                   'font-size': '10px'
                 }
               },
-            server: {url : '/budget/api/data',
+            server: {url : '/budget',
                 method:'POST',
                 headers: {'Content-Type': 'application/json'},
                 body:JSON.stringify({'type':'Income', 'year':document.getElementById("year_selected").value}),
@@ -98,7 +98,7 @@ function initial_setup(){
     tableDiv_expense = document.getElementById("Expense");    
     grid_expense = new gridjs.Grid({
             columns: [
-                { id: 'id', name: 'Category', formatter: (cell)=>styling(cell), 'attributes': editableCellAttributes},
+                { id: 'id', name: 'Category', 'attributes': editableCellAttributes},
                 { id: '1', name : 'Jan.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
                 { id: '2', name: 'Fev.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
                 { id: '3', name: 'Mar.', formatter: (cell)=>styling(cell),'attributes': editableCellAttributes },
@@ -120,7 +120,7 @@ function initial_setup(){
                   'font-size': '10px'
                 }
               },
-            server: {url : '/budget/api/data',
+            server: {url : '/budget',
                 method:'POST',
                 headers: {'Content-Type': 'application/json'},
                 body:JSON.stringify({'type':'Expense', 'year':document.getElementById("year_selected").value}),
@@ -190,7 +190,7 @@ function initial_setup(){
                   'font-size': '10px'
                 }
               },
-            server: {url : '/budget/api/data',
+            server: {url : '/budget',
                 method:'POST',
                 headers: {'Content-Type': 'application/json'},
                 body:JSON.stringify({'type':'Savings', 'year':document.getElementById("year_selected").value}),
@@ -237,19 +237,19 @@ function initial_setup(){
 }
 
 function update_budget_tables() {
-    grid_income.updateConfig({server: {url : '/budget/api/data',
+    grid_income.updateConfig({server: {url : '/budget',
     method:'POST',
     headers: {'Content-Type': 'application/json'},
     body:JSON.stringify({'type':'Income', 'year':document.getElementById("year_selected").value}),
     then :result => result.data}}).forceRender(tableDiv_income);
     
-    grid_expense.updateConfig({server: {url : '/budget/api/data',
+    grid_expense.updateConfig({server: {url : '/budget',
     method:'POST',
     headers: {'Content-Type': 'application/json'},
     body:JSON.stringify({'type':'Expense', 'year':document.getElementById("year_selected").value}),
     then :result => result.data}}).forceRender(tableDiv_expense);
 
-    grid_savings.updateConfig({server: {url : '/budget/api/data',
+    grid_savings.updateConfig({server: {url : '/budget',
     method:'POST',
     headers: {'Content-Type': 'application/json'},
     body:JSON.stringify({'type':'Savings', 'year':document.getElementById("year_selected").value}),
