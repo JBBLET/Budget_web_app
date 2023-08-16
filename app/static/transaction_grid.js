@@ -3,10 +3,12 @@ var grid_transaction;
 var tableDiv_transaction;
 
 function sleep(ms) {
+    //funtion to await for update of response
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function styling(string){
+    //funtion to stylize the content of the cells
     if (string!=''){
         return Number(string).toLocaleString();
     }
@@ -113,6 +115,7 @@ function update_transaction_tables() {
     then :result => result.data}}).forceRender(tableDiv_transaction);
               }
 
+//call the initialization function on window load
 window.onload = function() {
     initial_setup();
     }
