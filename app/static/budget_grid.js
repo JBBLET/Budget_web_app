@@ -1,3 +1,4 @@
+//Create Global variables for the div and the grid
 var tableDiv_income;
 var grid_income;
 
@@ -8,6 +9,7 @@ var tableDiv_savings;
 var grid_savings;
 
 function styling(string){
+    //Function to format the content of the cell in the grids
     if (string!=''){
         return Number(string).toLocaleString();
     }
@@ -16,6 +18,7 @@ function styling(string){
     }
 }
 const editableCellAttributes = (data, row, col) => {
+    //Attribute to make the cell content editable
     if (row) {
         return {contentEditable: 'true', 'data-element-id': row.cells[0].data};
         }
@@ -25,6 +28,7 @@ const editableCellAttributes = (data, row, col) => {
     };
 
 function initial_setup(){
+    //Function that create the inital grids and link them to the right call to the server
     tableDiv_income = document.getElementById("Income");    
     grid_income = new gridjs.Grid({
             columns: [
@@ -55,15 +59,16 @@ function initial_setup(){
                 headers: {'Content-Type': 'application/json'},
                 body:JSON.stringify({'type':'Income', 'year':document.getElementById("year_selected").value}),
                 then :result => result.data}}).render(tableDiv_income);
-    
+            
+            //Create the events to handle the edition of table contents
             let savedValue_income;
-    
+
             tableDiv_income.addEventListener('focusin', ev => {
                 if (ev.target.tagName === 'TD') {
                     savedValue_income = ev.target.textContent;
                     }
                 });
-        
+            //Create the sending of the edited data to the server to update the db
             tableDiv_income.addEventListener('focusout', ev => {
                 if (ev.target.tagName === 'TD') {
                 if (savedValue_income !== ev.target.textContent) {
@@ -125,7 +130,8 @@ function initial_setup(){
                 headers: {'Content-Type': 'application/json'},
                 body:JSON.stringify({'type':'Expense', 'year':document.getElementById("year_selected").value}),
                 then :result => result.data}}).render(tableDiv_expense);
-    
+            
+            //Create the events to handle the edition of table contents
             let savedValue_expense;
     
             tableDiv_expense.addEventListener('focusin', ev => {
@@ -133,7 +139,7 @@ function initial_setup(){
                     savedValue_expense = ev.target.textContent;
                     }
                 });
-        
+            //Create the sending of the edited data to the server to update the db
             tableDiv_expense.addEventListener('focusout', ev => {
                 if (ev.target.tagName === 'TD') {
                 if (savedValue_expense !== ev.target.textContent) {
@@ -195,7 +201,8 @@ function initial_setup(){
                 headers: {'Content-Type': 'application/json'},
                 body:JSON.stringify({'type':'Savings', 'year':document.getElementById("year_selected").value}),
                 then :result => result.data}}).render(tableDiv_savings);
-    
+            
+            //Create the events to handle the edition of table contents
             let savedValue_savings;
     
             tableDiv_savings.addEventListener('focusin', ev => {
@@ -203,7 +210,7 @@ function initial_setup(){
                     savedValue_savings = ev.target.textContent;
                     }
                 });
-        
+            //Create the sending of the edited data to the server to update the db
             tableDiv_savings.addEventListener('focusout', ev => {
                 if (ev.target.tagName === 'TD') {
                 if (savedValue_savings !== ev.target.textContent) {
@@ -237,6 +244,7 @@ function initial_setup(){
 }
 
 function update_budget_tables() {
+    //Function to rerender all the grids and reask the server data by fake updating the server attibute 
     grid_income.updateConfig({server: {url : '/budget',
     method:'POST',
     headers: {'Content-Type': 'application/json'},
@@ -256,6 +264,7 @@ function update_budget_tables() {
     then :result => result.data}}).forceRender(tableDiv_savings);
               }
 
+//Call the initialization function on window load
 window.onload = function() {
 initial_setup();
 }
