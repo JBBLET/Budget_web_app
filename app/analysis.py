@@ -30,6 +30,10 @@ def create_budget_table(category_list,budget_element_list):
 
 
 def create_transaction_table(transaction_list):
+    """from the List output of the querry, this function will create the data
+    to insert into the grid in the transaction creation 
+    List of db.model object -> [] containing the rows of the transaction
+    """
     out=[]
     for transaction in transaction_list:
         transaction_date = date(transaction[0].year,transaction[0].month,transaction[0].day)
@@ -43,6 +47,10 @@ def create_transaction_table(transaction_list):
     return out
 
 def make_data_frame(cat_list,budget_list,transaction_list):
+    """from the List output of the querry, this function will create the data
+    frame used to analyze the data in the dashboard
+    List of db.model object -> [] containing the rows of the transaction
+    """
     df = pd.DataFrame(0,index=[cat.category_type for cat in cat_list],columns=['Tracked','Budget'])
     for budget_entry in budget_list:
             df.loc[budget_entry[1].category_type,'Budget']+=budget_entry[0].amount
@@ -52,7 +60,10 @@ def make_data_frame(cat_list,budget_list,transaction_list):
     return(df)
 
 def make_year_df(categories,month_df):
-    
+    """from the List output of the querry, this function will create the data
+    frame used to analyze the data in the dashboard for the total year
+    List of db.model object -> [] containing the rows of the transaction
+    """
     year_df = {key:pd.DataFrame(0,index=[cat.category_type for cat in item],columns=['Tracked','Budget']) for key, item in categories.items()}
     for i in range(2,13):
         for budget in budget_type:
@@ -61,6 +72,9 @@ def make_year_df(categories,month_df):
 
 
 def complete_df(df_dict):
+    """from the dataframe of {Income, Expense, Savings} we want to complete it in place
+    and create the completed, remaining and excess columns
+    """
     for budget in budget_type:
         Completed,Excess,Remaining= [],[],[]
         for index, row in df_dict[budget].iterrows():
@@ -68,7 +82,7 @@ def complete_df(df_dict):
                 percentage = (row['Tracked']/row['Budget'])*100
                 Completed.append("{:.2f}".format(percentage)+' %')
             else:
-                Completed.append('0.00%')
+                Completed.append('')
             if row['Tracked'] >= row['Budget']:
                 Remaining.append(0)
                 Excess.append(row['Tracked']-row['Budget'])
@@ -80,6 +94,9 @@ def complete_df(df_dict):
         df_dict[budget]['Remaining'] = Remaining
 
 def make_table(dict_df):
+    """from all the dataframe we want to create the data that will be put in the dashboard 
+    grids to summarize the data this includes the total part
+    """
     out = {}
     for budget in budget_type:
         df = dict_df[budget]
@@ -101,6 +118,9 @@ def make_table(dict_df):
     return(out)
 
 def make_doughnut(dict_df,budget_type,label):
+    """take the dicts of data frame and labels to make the data in a shape
+    that can be imported in the doughnut chart in chart.js 
+    """
     data = {'datasets':[]}
     df = dict_df[budget_type]
     df = df[df.Tracked != 0]
@@ -114,10 +134,12 @@ def make_doughnut(dict_df,budget_type,label):
         data['datasets'].append({'data':[el for el in list(df['Tracked'])[:4]]+[sum(list(df['Tracked'])[4:])],
                                 'label':label,
                                 'backgroundColor':linear_gradient(colors[budget_type][1],colors[budget_type][0],len(data['labels']))})
-    print(data)
     return data
 
 def make_year_barcharts(year_data):
+    """take the dicts of data frame and labels to make the data in a shape
+    that can be imported in the barchart chart in chart.js
+    """
     data= {'labels':['Jan','Fev','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'], 'data':[]}
     for i in range(len(budget_type)):
         dataset = {}
@@ -144,6 +166,10 @@ def make_year_barcharts(year_data):
     return data
 
 def make_dashboard_data(categories,year_data,months):
+    """Take the categories list and all the transaction for the year obtained trough querrying
+    the db to create all the data for the dashboard in the form of a dict that will be sent to the 
+    client
+    """
     output = {}
     months_df = {}
     for key ,item in year_data.items():
